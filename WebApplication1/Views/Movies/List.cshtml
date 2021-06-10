@@ -1,0 +1,91 @@
+﻿@model WebApplication1.Models.VMMovieList
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<h1>Movies</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Filter">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="Movie.Title" class="control-label"></label>
+                        <input asp-for="Movie.Title" maxlength="50" class="form-control"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Movie.Description" class="control-label"></label>
+                        <input asp-for="Movie.Description" maxlength="254" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="Movie.Year" class="control-label"></label>
+                        <input asp-for="Movie.Year" min="1900" max="@DateTime.Now.Year" class="form-control"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Movie.Category" class="control-label"></label>
+                        <select asp-for="Movie.Category" class="form-control" asp-items="ViewBag.Category"></select>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px">
+                    <div class="col-md-1">
+                        <input type="submit" value="Filter" class="btn btn-primary"/>
+                    </div>
+                    <div class="col-md-2">
+                        <p>
+                            <a asp-action="Create">Create New</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Movie.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Movie.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Movie.Year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Movie.Category)
+        </th>
+        <th>
+            Navigation
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.MoviesList) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryNavigation.Title)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
